@@ -10,8 +10,10 @@ npm run lint
 if ($LASTEXITCODE) { throw 'The lint found problems.' }
 npm test
 if ($LASTEXITCODE) { throw 'The tests failed.' }
-npm run package
+npm run build
 if ($LASTEXITCODE) { throw 'The build failed.' }
+npm run package
+if ($LASTEXITCODE) { throw 'The zip could not be made.' }
 
 $version = (Get-Content manifest.json -Raw | ConvertFrom-Json).version
 $zip = Join-Path $root "release/hemitube-$version.zip"
