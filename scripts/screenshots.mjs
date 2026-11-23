@@ -44,7 +44,7 @@ async function shot(s, file, dark, height) {
   await s.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: dark ? 'dark' : 'light' }] });
   await sleep(600);
   const h = height ?? (await s.evaluate('Math.ceil(document.body.scrollHeight)'));
-  const { data } = await s.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: await s.evaluate('document.documentElement.clientWidth'), height: h, scale: 1 }, captureBeyondViewport: true });
+  const { data } = await s.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: await s.evaluate('Math.max(document.documentElement.clientWidth, document.body.scrollWidth)'), height: h, scale: 1 }, captureBeyondViewport: true });
   writeFileSync(join(OUT, file), Buffer.from(data, 'base64'));
   console.log(`screenshots/${file}`);
 }
@@ -54,7 +54,7 @@ try {
   // the defaults are written by the service worker at the install
   const options = await open(`chrome-extension://${id}/options/options.html`, 900, 1000);
   await options.waitFor(`(async () => !!(await chrome.storage.sync.get('settings')).settings)()`, { timeout: 30000 });
-  const popup = await open(`chrome-extension://${id}/popup/popup.html`, 340, 200);
+  const popup = await open(`chrome-extension://${id}/popup/popup.html`, 340, 900);
   await sleep(800);
   await shot(popup, 'popup-dark.png', true);
   await shot(popup, 'popup-light.png', false);
