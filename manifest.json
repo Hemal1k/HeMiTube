@@ -1,0 +1,103 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extName__",
+  "description": "__MSG_extDescription__",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://returnyoutubedislikeapi.com/*"
+  ],
+  "optional_host_permissions": [
+    "https://sponsor.ajay.app/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "__MSG_extName__",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.youtube.com/*",
+        "https://*.youtube-nocookie.com/*"
+      ],
+      "exclude_matches": [
+        "https://music.youtube.com/*",
+        "https://studio.youtube.com/*",
+        "https://www.youtube.com/live_chat*",
+        "https://www.youtube.com/live_chat_replay*"
+      ],
+      "js": [
+        "main-world.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://*.youtube.com/*",
+        "https://*.youtube-nocookie.com/*"
+      ],
+      "exclude_matches": [
+        "https://music.youtube.com/*",
+        "https://studio.youtube.com/*",
+        "https://www.youtube.com/live_chat*",
+        "https://www.youtube.com/live_chat_replay*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "toggle-theater": {
+      "description": "__MSG_cmdToggleTheater__"
+    },
+    "toggle-masthead": {
+      "description": "__MSG_cmdToggleMasthead__"
+    },
+    "screenshot": {
+      "description": "__MSG_cmdScreenshot__"
+    },
+    "loop-toggle": {
+      "description": "__MSG_cmdLoopToggle__"
+    },
+    "loop-a": {
+      "description": "__MSG_cmdLoopA__"
+    },
+    "loop-b": {
+      "description": "__MSG_cmdLoopB__"
+    },
+    "loop-clear": {
+      "description": "__MSG_cmdLoopClear__"
+    }
+  }
+}

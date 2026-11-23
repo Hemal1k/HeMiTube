@@ -1,0 +1,121 @@
+/*
+ * HeMiTube – styly vkládané na YouTube.
+ * Všechna pravidla platí jen při atributech ytk-* na <html> (nastavuje content/theater.js),
+ * takže vypnutí modulu okamžitě vrací původní vzhled.
+ */
+
+/* ---------- Modul 1: režim kina přes celé okno ---------- */
+
+/* Výška horní lišty: proměnná YouTube, jinak 56 px (hodnota z Better YouTube Theatre Mode). [P] */
+html[ytk-in-theater] ytd-app {
+  --ytk-top: var(--ytd-masthead-height, 56px);
+}
+
+html[ytk-in-theater][ytk-hide-masthead] ytd-app {
+  --ytk-top: 0px;
+}
+
+html[ytk-full-window][ytk-in-theater] ytd-watch-flexy[theater] #full-bleed-container,
+html[ytk-full-window][ytk-in-theater] ytd-watch-flexy[theater] #player-full-bleed-container,
+html[ytk-full-window][ytk-in-theater] ytd-watch-grid[theater] #full-bleed-container,
+html[ytk-full-window][ytk-in-theater] ytd-watch-grid[theater] #player-full-bleed-container {
+  height: calc(100vh - var(--ytk-top, 56px)) !important;
+  max-height: none !important;
+  min-height: 0 !important;
+}
+
+/* Skrytá horní lišta: odjede nahoru, obsah se posune pod ni. [P] #masthead-container je position: fixed */
+html[ytk-in-theater][ytk-hide-masthead] #masthead-container {
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+}
+
+html[ytk-in-theater][ytk-hide-masthead][ytk-masthead-visible] #masthead-container {
+  transform: none;
+}
+
+html[ytk-in-theater][ytk-hide-masthead] ytd-app #page-manager {
+  margin-top: 0 !important;
+}
+
+/* Neviditelný pruh nahoře: najetí myší lištu vysune. */
+#ytk-reveal-zone {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  z-index: 2147483000;
+}
+
+html[ytk-in-theater][ytk-hide-masthead]:is([ytk-reveal='hover'], [ytk-reveal='both']):not([ytk-masthead-visible]) #ytk-reveal-zone {
+  display: block;
+}
+
+/* ---------- Modul 2: vlastní prvek „Nelíbí se“ na Shorts (jen zobrazení) ---------- */
+
+.ytk-shorts-dislike [role='img'] {
+  cursor: default;
+  pointer-events: none;
+}
+
+.ytk-shorts-dislike [role='img'] svg {
+  display: block;
+  margin: auto;
+}
+
+/* ---------- Modul 2: lišta poměru like/dislike ---------- */
+
+.ytk-ratio-host {
+  position: relative !important;
+}
+
+#ytk-ratio-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  pointer-events: auto;
+  background: var(--yt-spec-icon-disabled, #909090);
+}
+
+#ytk-ratio-bar > div {
+  height: 100%;
+  background: var(--yt-spec-text-primary, #0f0f0f);
+}
+
+/* Volitelně: bez ambientní záře kolem videa v režimu kina (#cinematics, ověřeno 2026-11). */
+html[ytk-in-theater][ytk-no-ambient] #cinematics,
+html[ytk-in-theater][ytk-no-ambient] #cinematics-container,
+html[ytk-in-theater][ytk-no-ambient] #cinematics-full-bleed-container {
+  display: none !important;
+}
+
+/* ---------- SponsorBlock: krátké oznámení v přehrávači ---------- */
+
+.ytk-sb-toast,
+.ytk-player-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 64px;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 7px 14px;
+  border-radius: 18px;
+  background: rgba(15, 15, 15, 0.82);
+  color: #ffffff;
+  font: 500 14px/1.3 Roboto, Arial, sans-serif;
+  pointer-events: none;
+  animation: ytk-sb-fade 2.8s ease forwards;
+}
+
+@keyframes ytk-sb-fade {
+  0% { opacity: 0; transform: translate(-50%, 6px); }
+  8% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}

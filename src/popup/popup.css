@@ -1,0 +1,337 @@
+/*
+ * Popup. Chromium omezuje výšku popupu na 600 px, proto je rozvržení kompaktní:
+ * i se všemi rozbalenými volbami a stavem přehrávání se vejde bez posuvníku.
+ */
+body {
+  width: 340px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+}
+
+/* ---------- Hlavička ---------- */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 2px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand img {
+  display: block;
+}
+
+header h1 {
+  font-size: 15px;
+}
+
+button.advanced {
+  font-size: 12px;
+  padding: 3px 10px;
+  min-height: 26px;
+  white-space: nowrap;
+}
+
+/* ---------- Dlaždice rychlého nastavení (styl Windows 11), zapnuto = červená YouTube ---------- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  min-height: 50px;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.tile:hover {
+  background: var(--surface-hover);
+}
+
+/* Checkbox je skrytý, ale ovladatelný klávesnicí (mezerník) a čtečkou obrazovky. */
+.tile input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.tile-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile-state {
+  font-size: 11px;
+  color: var(--fg-soft);
+}
+
+.tile:has(input:checked) {
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.tile:has(input:checked):hover {
+  background: color-mix(in srgb, var(--accent) 19%, var(--surface));
+}
+
+.tile:has(input:checked) .tile-state {
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+
+.tile:has(input:focus-visible) {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+#sb-message:empty {
+  display: none;
+}
+
+/* ---------- Moduly (řádky jako v Nastavení Windows 11 / macOS) ---------- */
+
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.module {
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 12px;
+  min-height: 36px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+/* Zvýraznění je světlejší než karta, vnořené volby jsou naopak zapuštěné (tmavší) → nesplývají. */
+.row:hover {
+  background: var(--surface-hover);
+}
+
+.row .title {
+  font-weight: 600;
+}
+
+.row-end {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row-end select {
+  min-height: 26px;
+  padding: 2px 24px 2px 8px;
+  background-position: right 6px center;
+}
+
+div.row .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+div.row {
+  cursor: default;
+}
+
+/* Rychlé volby pod přepínačem modulu: zapuštěný box s vlastním okrajem */
+.sub {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0 6px 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--sunken);
+  border: 1px solid var(--sunken-stroke);
+}
+
+.sub-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sub-row .label {
+  color: var(--fg-soft);
+  white-space: nowrap;
+}
+
+.sub-row select {
+  min-width: 150px;
+  min-height: 26px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.sub-row.check {
+  justify-content: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.sub-row.check .label {
+  white-space: normal;
+}
+
+/* Kodeky: přepínací „chipy“, zapnuto = červená YouTube */
+.chips {
+  display: flex;
+  gap: 4px;
+}
+
+.chips button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 24px;
+  padding: 1px 9px;
+  font-size: 12px;
+  border-radius: 12px;
+  color: var(--fg-faint);
+  background: transparent;
+  border: 1px solid var(--control-stroke);
+  text-decoration: line-through;
+}
+
+.chips button[aria-pressed='true'] {
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.chips button[aria-pressed='true']:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.chips .rank {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--accent-text);
+}
+
+.hint:empty {
+  display: none;
+}
+
+/* ---------- Stav přehrávání (dva sloupce, ať se vejde) ---------- */
+
+.status {
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 6px 12px 7px;
+}
+
+.status h2 {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.status p {
+  margin: 0;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 12px;
+  margin: 0;
+}
+
+dl > div {
+  min-width: 0;
+}
+
+dt {
+  font-size: 11px;
+  color: var(--fg-soft);
+  white-space: nowrap;
+}
+
+dd {
+  margin: 0;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Upozornění na obnovení ---------- */
+
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.notice p {
+  margin: 0;
+}
+
+.notice button {
+  flex: none;
+  min-height: 26px;
+  padding: 3px 10px;
+}

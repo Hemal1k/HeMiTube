@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+_reference/
+*.zip
+*.crx
+*.pem
+/build
+# own notes, the review and the private publishing script (not part of the project)
+docs/
+CLAUDE.md

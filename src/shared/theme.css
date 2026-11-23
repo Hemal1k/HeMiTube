@@ -1,0 +1,295 @@
+/*
+ * Společný vzhled popupu a pokročilých nastavení.
+ * Styl blízký Windows 11 (Fluent) a macOS: systémové písmo, vrstvené plochy, jemné okraje,
+ * zaoblení 8 px. Akcentní barva je červená YouTube (přepínače, zaškrtávátka, hlavní tlačítko, odkazy).
+ */
+:root {
+  color-scheme: light dark;
+
+  /* Červená YouTube */
+  --accent: #d9304a;
+  --accent-hover: #c2283f;
+  --accent-text: #b3243a; /* červený text s dostatečným kontrastem na světlé ploše */
+  --accent-soft: rgba(217, 48, 74, 0.1);
+  --on-accent: #ffffff;
+
+  /* Plochy (světlý motiv) */
+  --bg: #f3f3f3; /* pozadí okna (Mica) */
+  --surface: #fbfbfb; /* karta / řádek nastavení */
+  --surface-hover: #ffffff;
+  --surface-2: rgba(0, 0, 0, 0.035); /* vnořené prvky */
+  --sunken: #f1f1f1; /* zapuštěný box s volbami */
+  --sunken-stroke: rgba(0, 0, 0, 0.06);
+  --control: #ffffff;
+  --control-hover: #f9f9f9;
+  --stroke: rgba(0, 0, 0, 0.0578);
+  --stroke-strong: rgba(0, 0, 0, 0.1);
+  --control-stroke: rgba(0, 0, 0, 0.14);
+  --fg: #1b1b1b;
+  --fg-soft: #5d5d5d;
+  --fg-faint: #8a8a8a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.14);
+  --warn-bg: #fff4ce;
+  --warn-fg: #5d4200;
+  --warn-stroke: rgba(157, 93, 0, 0.18);
+
+  --radius: 8px;
+  --radius-sm: 4px;
+  --font: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
+    'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  accent-color: var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #e0566a;
+    --accent-hover: #e86d7f;
+    --accent-text: #f28b9a;
+    --accent-soft: rgba(224, 86, 106, 0.16);
+
+    --bg: #202020;
+    --surface: #2b2b2b;
+    --surface-hover: #353535;
+    --surface-2: rgba(255, 255, 255, 0.04);
+    --sunken: #232323;
+    --sunken-stroke: rgba(255, 255, 255, 0.05);
+    --control: #373737;
+    --control-hover: #3d3d3d;
+    --stroke: rgba(255, 255, 255, 0.07);
+    --stroke-strong: rgba(255, 255, 255, 0.1);
+    --control-stroke: rgba(255, 255, 255, 0.09);
+    --fg: #ffffff;
+    --fg-soft: #c8c8c8;
+    --fg-faint: #9a9a9a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --warn-bg: #433519;
+    --warn-fg: #ffe08a;
+    --warn-stroke: rgba(255, 224, 138, 0.14);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Chromium vkládá na stránky rozšíření vlastní výchozí styl (body: 75 %, „Segoe UI“, Tahoma),
+   proto se písmo nastavuje přímo na body. */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent-text);
+}
+
+.muted {
+  color: var(--fg-soft);
+}
+
+/* ---------- Tlačítka ---------- */
+
+button {
+  cursor: pointer;
+  border: 1px solid var(--control-stroke);
+  border-bottom-color: color-mix(in srgb, var(--control-stroke) 100%, rgba(0, 0, 0, 0.08));
+  background: var(--control);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  min-height: 30px;
+  transition: background-color 0.1s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--control-hover);
+}
+
+button:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: transparent;
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Výběr (select) ---------- */
+
+select {
+  appearance: none;
+  background-color: var(--control);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%235d5d5d' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  border: 1px solid var(--control-stroke);
+  border-radius: var(--radius-sm);
+  padding: 5px 30px 5px 10px;
+  min-height: 30px;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23c8c8c8' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+}
+
+select:hover:not(:disabled) {
+  background-color: var(--control-hover);
+}
+
+select:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ---------- Zaškrtávátko ---------- */
+
+input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex: none;
+  cursor: pointer;
+}
+
+/* ---------- Přepínač (checkbox jako switch, styl Windows 11 / macOS, zapnuto = červená YouTube) ---------- */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  flex: none;
+}
+
+.switch input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.switch span {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  border: 1px solid var(--fg-faint);
+  background: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  pointer-events: none;
+}
+
+.switch span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--fg-soft);
+  transform: translateY(-50%);
+  transition: transform 0.15s ease, width 0.15s ease, height 0.15s ease, background-color 0.15s ease;
+}
+
+.switch:hover span {
+  background: var(--surface-2);
+}
+
+.switch input:checked + span {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.switch input:checked + span::after {
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  transform: translate(19px, -50%);
+}
+
+.switch input:focus-visible + span {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ---------- Informační lišta (InfoBar) ---------- */
+
+.notice {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  border: 1px solid var(--warn-stroke);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+
+/* ---------- Pomocné ---------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

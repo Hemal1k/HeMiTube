@@ -1,0 +1,319 @@
+/* Pokročilá nastavení – rozvržení jako Nastavení ve Windows 11 / macOS. */
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 20px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---------- Hlavička ---------- */
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+header img {
+  display: block;
+  flex: none;
+}
+
+header h1 {
+  font-size: 26px;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+header p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* ---------- Karta modulu ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card + .card {
+  margin-top: 4px;
+}
+
+.card h2 {
+  font-size: 15px;
+}
+
+.card > h2:first-child {
+  margin-bottom: 8px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 32px;
+  margin-bottom: 4px;
+}
+
+.card.disabled > :not(.card-head) {
+  opacity: 0.5;
+}
+
+/* Podnadpis skupiny voleb */
+h3.group {
+  margin: 10px 0 2px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-soft);
+}
+
+/* ---------- Řádek volby ---------- */
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 4px 10px;
+  margin: 0 -10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.opt:hover {
+  background: var(--surface-2);
+}
+
+.opt select {
+  margin-left: auto;
+  min-width: 220px;
+}
+
+.opt.indent {
+  padding-left: 36px;
+}
+
+.opt.inactive {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.opt.inactive:hover {
+  background: transparent;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+}
+
+.notice {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+}
+
+/* ---------- Kodeky ---------- */
+
+.codec-list {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.codec-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 8px 6px 10px;
+  border: 1px solid var(--stroke);
+  border-radius: 6px;
+  background: var(--surface-2);
+  cursor: grab;
+  transition: border-color 0.1s ease, background-color 0.1s ease;
+}
+
+.codec-list li:hover {
+  border-color: var(--stroke-strong);
+}
+
+.codec-list li.dragging {
+  opacity: 0.45;
+}
+
+.codec-list li.drop-target {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.codec-list .handle {
+  color: var(--fg-faint);
+  user-select: none;
+  font-size: 14px;
+}
+
+.codec-list .rank {
+  min-width: 1.6em;
+  color: var(--accent-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.codec-list label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.codec-list button {
+  min-width: 30px;
+  min-height: 28px;
+  padding: 0 8px;
+}
+
+.audio-list {
+  display: flex;
+  gap: 24px;
+  padding: 0 10px;
+}
+
+.audio-list .opt {
+  margin: 0;
+  padding: 4px 0;
+}
+
+.audio-list .opt:hover {
+  background: transparent;
+}
+
+/* ---------- Záloha ---------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------- Oznámení „Uloženo“ ---------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, 8px);
+  margin: 0;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke-strong);
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: var(--shadow-pop);
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+  z-index: 100;
+  max-width: calc(100vw - 32px);
+}
+
+.toast::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 1px;
+}
+
+.toast.info {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  border-color: var(--warn-stroke);
+}
+
+.toast.info::before {
+  background: var(--warn-fg);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------- SponsorBlock ---------- */
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+}
+
+.notice.permission {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 2px 0 6px;
+}
+
+/* ---------- Klávesové zkratky ---------- */
+
+.shortcut-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shortcut-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--surface-2);
+}
+
+kbd {
+  font: 600 12px/1 var(--font);
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--control-stroke);
+  border-bottom-width: 2px;
+  background: var(--control);
+  white-space: nowrap;
+}
+
+kbd.unset {
+  font-weight: 400;
+  color: var(--fg-soft);
+  border-style: dashed;
+  border-bottom-width: 1px;
+}

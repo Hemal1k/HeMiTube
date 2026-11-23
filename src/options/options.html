@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="optionsTitle"></title>
+    <link rel="stylesheet" href="../shared/theme.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="../icons/icon48.png" alt="" width="40" height="40" />
+        <div>
+          <h1 data-i18n="optionsTitle"></h1>
+        </div>
+      </header>
+
+      <!-- Modul 1 -->
+      <section class="card">
+        <div class="card-head">
+          <h2 data-i18n="modTheater"></h2>
+          <span class="switch"><input type="checkbox" data-setting="theater.enabled" data-i18n-aria-label="modTheater" /><span></span></span>
+        </div>
+        <h3 class="group" data-i18n="groupTheaterStart"></h3>
+        <label class="opt"><input type="checkbox" data-setting="theater.autoTheater" /> <span data-i18n="optAutoTheater"></span></label>
+        <label class="opt indent" data-depends="theater.autoTheater"><input type="checkbox" data-setting="theater.autoTheaterSkipLive" /> <span data-i18n="optAutoTheaterSkipLive"></span></label>
+        <label class="opt"><input type="checkbox" data-setting="theater.hideLiveChat" /> <span data-i18n="optHideLiveChat"></span></label>
+
+        <h3 class="group" data-i18n="groupTheaterLook"></h3>
+        <label class="opt"><input type="checkbox" data-setting="theater.fullWindow" /> <span data-i18n="optFullWindow"></span></label>
+        <label class="opt"><input type="checkbox" data-setting="theater.hideMasthead" /> <span data-i18n="optHideMasthead"></span></label>
+        <label class="opt indent" data-depends="theater.hideMasthead">
+          <span data-i18n="optRevealMasthead"></span>
+          <select data-setting="theater.revealMasthead" data-options="reveal"></select>
+        </label>
+        <label class="opt"><input type="checkbox" data-setting="theater.noAmbient" /> <span data-i18n="optNoAmbient"></span></label>
+      </section>
+
+      <!-- Modul 2 -->
+      <section class="card">
+        <div class="card-head">
+          <h2 data-i18n="modDislikes"></h2>
+          <span class="switch"><input type="checkbox" data-setting="dislikes.enabled" data-i18n-aria-label="modDislikes" /><span></span></span>
+        </div>
+        <label class="opt"><input type="checkbox" data-setting="dislikes.ratioBar" /> <span data-i18n="optRatioBar"></span></label>
+        <p class="hint muted" data-i18n="hintDislikes"></p>
+      </section>
+
+      <!-- Modul 3 -->
+      <section class="card">
+        <div class="card-head">
+          <h2 data-i18n="modQuality"></h2>
+          <span class="switch"><input type="checkbox" data-setting="quality.enabled" data-i18n-aria-label="modQuality" /><span></span></span>
+        </div>
+        <label class="opt">
+          <span data-i18n="optPreferred"></span>
+          <select data-setting="quality.preferred" data-options="quality"></select>
+        </label>
+        <label class="opt">
+          <span data-i18n="optFps"></span>
+          <select data-setting="quality.fps" data-options="fps"></select>
+        </label>
+        <label class="opt">
+          <span data-i18n="optEmbedPreferred"></span>
+          <select data-setting="quality.embedPreferred" data-options="qualityOptional"></select>
+        </label>
+      </section>
+
+      <!-- Modul 4 -->
+      <section class="card">
+        <div class="card-head">
+          <h2 data-i18n="modCodecs"></h2>
+          <span class="switch"><input type="checkbox" data-setting="codecs.enabled" data-i18n-aria-label="modCodecs" /><span></span></span>
+        </div>
+        <h3 class="group" data-i18n="groupVideoCodecs"></h3>
+        <ul id="codec-list" class="codec-list"></ul>
+        <h3 class="group" data-i18n="audioCodecs"></h3>
+        <div class="audio-list">
+          <label class="opt"><input type="checkbox" data-audio="opus" /> Opus</label>
+          <label class="opt"><input type="checkbox" data-audio="aac" /> AAC</label>
+        </div>
+      </section>
+
+      <!-- Modul 5 -->
+      <section class="card">
+        <div class="card-head">
+          <h2 data-i18n="modHideShorts"></h2>
+          <span class="switch"><input type="checkbox" data-setting="hideShorts.enabled" data-i18n-aria-label="modHideShorts" /><span></span></span>
+        </div>
+        <label class="opt"><input type="checkbox" data-setting="hideShorts.redirect" /> <span data-i18n="optShortsRedirect"></span></label>
+        <p class="hint muted" data-i18n="hintHideShorts"></p>
+      </section>
+
+      <!-- Modul 6: rychlost přehrávání -->
+      <section class="card">
+        <div class="card-head">
+          <h2 data-i18n="modPlayback"></h2>
+          <span class="switch"><input type="checkbox" data-setting="playback.enabled" data-i18n-aria-label="modPlayback" /><span></span></span>
+        </div>
+        <label class="opt">
+          <span data-i18n="optSpeed"></span>
+          <select data-setting="playback.speed" data-options="speed"></select>
+        </label>
+        <label class="opt"><input type="checkbox" data-setting="playback.skipMusic" /> <span data-i18n="optSkipMusic"></span></label>
+      </section>
+
+      <!-- Modul 7: SponsorBlock -->
+      <section class="card" id="sponsorblock">
+        <div class="card-head">
+          <h2 data-i18n="modSponsorBlock"></h2>
+          <span class="switch"><input type="checkbox" id="sb-enabled" data-setting="sponsorBlock.enabled" data-i18n-aria-label="modSponsorBlock" /><span></span></span>
+        </div>
+        <div id="sb-permission" class="notice permission" hidden>
+          <span data-i18n="sbPermissionMissing"></span>
+          <button id="sb-grant" type="button" class="primary" data-i18n="sbGrant"></button>
+        </div>
+        <h3 class="group" data-i18n="sbCategoriesTitle"></h3>
+        <div id="sb-categories" class="category-grid"></div>
+        <label class="opt"><input type="checkbox" data-setting="sponsorBlock.notify" /> <span data-i18n="optSbNotify"></span></label>
+        <p class="hint muted" data-i18n="hintSponsorBlock"></p>
+      </section>
+
+      <!-- Skrýt rozptýlení -->
+      <section class="card">
+        <h2 data-i18n="distractionsTitle"></h2>
+        <div class="category-grid">
+          <label class="opt"><input type="checkbox" data-setting="distractions.endScreens" /> <span data-i18n="distEndScreens"></span></label>
+          <label class="opt"><input type="checkbox" data-setting="distractions.cards" /> <span data-i18n="distCards"></span></label>
+          <label class="opt"><input type="checkbox" data-setting="distractions.related" /> <span data-i18n="distRelated"></span></label>
+          <label class="opt"><input type="checkbox" data-setting="distractions.homeFeed" /> <span data-i18n="distHomeFeed"></span></label>
+          <label class="opt"><input type="checkbox" data-setting="distractions.comments" /> <span data-i18n="distComments"></span></label>
+        </div>
+      </section>
+
+      <!-- Klávesové zkratky -->
+      <section class="card">
+        <h2 data-i18n="shortcutsTitle"></h2>
+        <ul id="shortcut-list" class="shortcut-list"></ul>
+        <div class="actions">
+          <button id="open-shortcuts" type="button" data-i18n="shortcutsOpen"></button>
+        </div>
+      </section>
+
+      <!-- Záloha -->
+      <section class="card">
+        <h2 data-i18n="backupTitle"></h2>
+        <div class="actions">
+          <button id="export" type="button" data-i18n="exportSettings"></button>
+          <button id="import" type="button" data-i18n="importSettings"></button>
+          <input id="import-file" type="file" accept="application/json,.json" hidden />
+          <button id="reset" type="button" data-i18n="resetSettings"></button>
+        </div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "hemitube",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Soukromé rozšíření pro Chromium: režim kina přes celé okno, dislajky, automatická kvalita a výběr kodeků na YouTube.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "test": "node --test \"tests/*.test.mjs\"",
+    "lint": "eslint .",
+    "package": "node scripts/package.mjs",
+    "crx": "node scripts/crx.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "screenshots": "node scripts/screenshots.mjs",
+    "verify": "node scripts/verify-dist.mjs",
+    "e2e": "node tests/e2e/brave.e2e.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "crx3": "2.0.0",
+    "esbuild": "0.28.2",
+    "eslint": "10.15.0",
+    "globals": "17.14.0"
+  }
+}

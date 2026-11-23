@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="extName"></title>
+    <link rel="stylesheet" href="../shared/theme.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <img src="../icons/icon32.png" alt="" width="20" height="20" />
+        <h1 data-i18n="extName"></h1>
+      </div>
+      <button id="open-options" type="button" class="advanced"><span data-i18n="advancedSettings"></span> →</button>
+    </header>
+
+    <h2 class="visually-hidden" data-i18n="modulesTitle"></h2>
+
+    <!-- Rychlá nastavení: dlaždice 2 × 2 (styl rychlého nastavení Windows 11) -->
+    <section class="tiles">
+      <label class="tile">
+        <input type="checkbox" id="theater-toggle" />
+        <span class="tile-title" data-i18n="modTheater"></span>
+        <span class="tile-state"></span>
+      </label>
+      <label class="tile">
+        <input type="checkbox" data-module="dislikes" />
+        <span class="tile-title" data-i18n="modDislikes"></span>
+        <span class="tile-state"></span>
+      </label>
+      <label class="tile">
+        <input type="checkbox" data-module="sponsorBlock" />
+        <span class="tile-title" data-i18n="modSponsorBlock"></span>
+        <span class="tile-state"></span>
+      </label>
+      <label class="tile">
+        <input type="checkbox" data-module="hideShorts" />
+        <span class="tile-title" data-i18n="modHideShorts"></span>
+        <span class="tile-state"></span>
+      </label>
+    </section>
+    <p id="sb-message" class="hint" role="status" aria-live="polite"></p>
+
+    <section class="modules">
+      <div class="module">
+        <label class="row">
+          <span class="title" data-i18n="modQuality"></span>
+          <span class="switch"><input type="checkbox" data-module="quality" /><span></span></span>
+        </label>
+        <div class="sub" data-sub="quality">
+          <label class="sub-row">
+            <span class="label" data-i18n="optPreferred"></span>
+            <select id="quality-preferred"></select>
+          </label>
+          <label class="sub-row">
+            <span class="label" data-i18n="optFps"></span>
+            <select id="quality-fps"></select>
+          </label>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="row">
+          <span class="title" data-i18n="modPlayback"></span>
+          <span class="row-end">
+            <select id="playback-speed" data-sub="playback" data-i18n-aria-label="optSpeed"></select>
+            <span class="switch"><input type="checkbox" data-module="playback" data-i18n-aria-label="modPlayback" /><span></span></span>
+          </span>
+        </div>
+      </div>
+
+      <div class="module">
+        <label class="row">
+          <span class="title" data-i18n="modCodecs"></span>
+          <span class="switch"><input type="checkbox" data-module="codecs" /><span></span></span>
+        </label>
+        <div class="sub" data-sub="codecs">
+          <div class="sub-row">
+            <span class="label" id="video-codecs-label" data-i18n="popupVideoCodecs"></span>
+            <div id="codec-chips" class="chips" role="group" aria-labelledby="video-codecs-label"></div>
+          </div>
+          <div class="sub-row">
+            <span class="label" id="audio-codecs-label" data-i18n="popupAudioCodecs"></span>
+            <div id="audio-chips" class="chips" role="group" aria-labelledby="audio-codecs-label"></div>
+          </div>
+          <p id="codec-message" class="hint" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="status" aria-labelledby="status-title">
+      <h2 id="status-title" data-i18n="statusTitle"></h2>
+      <p id="status-empty" class="muted" data-i18n="statusNoVideo"></p>
+      <dl id="status-list" hidden>
+        <div><dt data-i18n="statusCodec"></dt><dd id="status-codec">–</dd></div>
+        <div><dt data-i18n="statusResolution"></dt><dd id="status-resolution">–</dd></div>
+        <div><dt data-i18n="statusFps"></dt><dd id="status-fps">–</dd></div>
+        <div><dt data-i18n="statusQuality"></dt><dd id="status-quality">–</dd></div>
+      </dl>
+      <div id="reload-notice" class="notice" hidden>
+        <p data-i18n="reloadNeeded"></p>
+        <button id="reload-tab" type="button" class="primary" data-i18n="reloadTab"></button>
+      </div>
+    </section>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
