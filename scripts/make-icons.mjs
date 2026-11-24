@@ -61,9 +61,9 @@ function inPlay(x, y, left, top, bottom, tip) {
 }
 
 /**
- * The colour of a point (0..1), or null (transparent). The HeMi style shared by all HeMi apps: a rounded tile in the
+ * The color of a point (0..1), or null (transparent). The HeMi style shared by all HeMi apps: a rounded tile in the
  * gradient #5CA4FF -> #8B4CFF, a white glyph and details in purple #6E6AFF. HeMiTube: a white screen with a purple play
- * triangle (a video) and the wide bar of the theatre mode under it.
+ * triangle (a video) and the wide bar of the theater mode under it.
  */
 function shade(x, y) {
   if (!inRound(x, y, MARGIN, MARGIN, 1 - MARGIN, 1 - MARGIN, RADIUS)) return null;

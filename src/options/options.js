@@ -14,6 +14,7 @@ import {
 } from '../shared/settings.js';
 import { AUDIO_CODECS, VIDEO_CODECS, buildCodecConfig, codecConfigKey } from '../shared/codec-logic.js';
 import { SB_ORIGIN } from '../shared/sponsorblock.js';
+import { isWelcomeSearch } from '../shared/welcome.js';
 
 const CODEC_NAMES = { av1: 'AV1', vp9: 'VP9', h264: 'H.264' };
 let settings = null;
@@ -66,6 +67,8 @@ async function save(message = t('saved')) {
     return;
   }
   render();
+  // Vypnutý SponsorBlock (přepínač, import, výchozí) nepotřebuje přístup k sponsor.ajay.app → vrátit ho.
+  if (!settings.sponsorBlock.enabled) dropSbPermission();
   // Kodeky a omezení FPS se do stránky dostanou jen při jejím načtení → upozornit na obnovení.
   const key = codecKeyOf(settings);
   const needsReload = before !== null && key !== before;
@@ -192,6 +195,8 @@ function bindAudio() {
 /* ---------- SponsorBlock ---------- */
 
 const hasSbPermission = () => chrome.permissions.contains({ origins: [SB_ORIGIN] }).catch(() => false);
+/** Volitelné oprávnění se po vypnutí modulu odebere; při dalším zapnutí se prohlížeč zeptá znovu. */
+const dropSbPermission = () => chrome.permissions.remove({ origins: [SB_ORIGIN] }).catch(() => false);
 
 async function renderSbPermission() {
   const missing = settings.sponsorBlock.enabled && !(await hasSbPermission());
@@ -295,6 +300,29 @@ function render() {
   renderSbPermission();
 }
 
+/* ---------- Uvítání po první instalaci ---------- */
+
+/** Oznámení o Return YouTube Dislike (jen s ?welcome=1, které otevře service worker při instalaci). */
+function initWelcome() {
+  if (!isWelcomeSearch(location.search)) return;
+  const banner = document.getElementById('welcome');
+  const card = document.getElementById('dislikes');
+  banner.hidden = false;
+  card.classList.add('highlight');
+  // Po obnovení stránky už oznámení nezobrazovat.
+  history.replaceState(null, '', location.pathname + location.hash);
+  const close = () => {
+    banner.hidden = true;
+    card.classList.remove('highlight');
+  };
+  document.getElementById('welcome-keep').addEventListener('click', close);
+  document.getElementById('welcome-off').addEventListener('click', () => {
+    settings.dislikes.enabled = false;
+    save();
+    close();
+  });
+}
+
 /* ---------- Export / import / výchozí ---------- */
 
 function exportSettings() {
@@ -326,6 +354,7 @@ async function init() {
   render();
   bindSettings();
   bindAudio();
+  initWelcome();
   document.getElementById('sb-grant').addEventListener('click', async () => {
     if (await requestSbPermission()) renderSbPermission();
   });

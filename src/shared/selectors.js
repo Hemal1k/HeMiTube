@@ -5,7 +5,7 @@
  * Každá položka je pole alternativ; použije se první, která na stránce existuje.
  * Původ: poznatky z RYD (dislajky), avi12/youtube-auto-hd (menu, režim kina)
  * a Better YouTube Theatre Mode (kontejner přehrávače). Položky označené [P]
- * jsou předpoklady ověřené jen ručně v prohlížeči (viz docs/PLAN.md).
+ * jsou předpoklady ověřené jen ručně v prohlížeči.
  */
 export const SELECTORS = Object.freeze({
   // Stránka sledování (desktop). ytd-watch-grid je novější varianta layoutu.

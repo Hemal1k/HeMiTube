@@ -16,6 +16,16 @@
         </div>
       </header>
 
+      <!-- Uvítání po první instalaci (?welcome=1): kdo načítá počty dislajků -->
+      <section id="welcome" class="notice welcome" role="region" aria-labelledby="welcome-title" hidden>
+        <h2 id="welcome-title" data-i18n="welcomeTitle"></h2>
+        <p data-i18n="welcomeDislikes"></p>
+        <div class="actions">
+          <button id="welcome-keep" type="button" class="primary" data-i18n="welcomeKeep"></button>
+          <button id="welcome-off" type="button" data-i18n="welcomeTurnOff"></button>
+        </div>
+      </section>
+
       <!-- Modul 1 -->
       <section class="card">
         <div class="card-head">
@@ -38,7 +48,7 @@
       </section>
 
       <!-- Modul 2 -->
-      <section class="card">
+      <section class="card" id="dislikes">
         <div class="card-head">
           <h2 data-i18n="modDislikes"></h2>
           <span class="switch"><input type="checkbox" data-setting="dislikes.enabled" data-i18n-aria-label="modDislikes" /><span></span></span>

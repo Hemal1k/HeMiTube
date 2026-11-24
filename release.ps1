@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 Set-Location $root
 
-npm ci --no-fund --no-audit
+npm ci --no-fund --no-audit --ignore-scripts   # no install scripts of the dependencies in the build
 if ($LASTEXITCODE) { throw 'npm ci failed.' }
 npm run lint
 if ($LASTEXITCODE) { throw 'The lint found problems.' }

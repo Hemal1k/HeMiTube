@@ -265,6 +265,14 @@ div.row {
   display: none;
 }
 
+/* Krátká poznámka pod dlaždicemi: kam jdou data modulu Počet disliků */
+.tiles-note {
+  margin: 0;
+  padding: 0 2px;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 /* ---------- Stav přehrávání (dva sloupce, ať se vejde) ---------- */
 
 .status {

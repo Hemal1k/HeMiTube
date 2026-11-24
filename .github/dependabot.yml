@@ -1,0 +1,11 @@
+# GitHub keeps the actions of the workflow and the tools of the build up to date: a pull request when a new version comes out.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly

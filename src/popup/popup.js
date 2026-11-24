@@ -192,6 +192,8 @@ async function init() {
         }
         return;
       }
+      // Vypnutý SponsorBlock přístup k sponsor.ajay.app nepotřebuje; při dalším zapnutí se prohlížeč zeptá znovu.
+      if (module === 'sponsorBlock') chrome.permissions.remove({ origins: [SB_ORIGIN] }).catch(() => {});
       $('sb-message').textContent = '';
       settings[module].enabled = input.checked;
       save();

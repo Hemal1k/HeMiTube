@@ -1,8 +1,8 @@
 {
   "name": "hemitube",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Soukromé rozšíření pro Chromium: režim kina přes celé okno, dislajky, automatická kvalita a výběr kodeků na YouTube.",
+  "description": "A Chromium extension for YouTube: full-window theater mode, dislike counts, automatic quality, codec selection, SponsorBlock and hidden Shorts.",
   "type": "module",
   "engines": {
     "node": ">=20"

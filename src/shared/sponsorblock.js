@@ -1,6 +1,6 @@
 /**
  * SponsorBlock (https://sponsor.ajay.app, data CC BY-NC-SA 4.0): jen čtení segmentů, nic se neodesílá.
- * Dotaz se posílá podle prvních 4 znaků SHA-256 hashe ID videa, takže server nezjistí, které video hraje.
+ * Dotaz se posílá podle prvních 4 znaků SHA-256 hashe ID videa, takže server nezjistí, které video přesně hraje.
  * Čisté funkce, testy: tests/sponsorblock.test.mjs.
  */
 import { SB_CATEGORIES } from './settings.js';

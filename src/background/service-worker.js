@@ -10,6 +10,7 @@ import { SETTINGS_KEY, migrate } from '../shared/settings.js';
 import { VIDEO_ID_RE } from '../shared/utils.js';
 import { RYD_BACKOFF_MS, RYD_CACHE_TTL_MS, RYD_VOTES_URL, isCacheFresh, parseVotes } from '../shared/ryd.js';
 import { SB_CACHE_TTL_MS, SB_ORIGIN, parseSegments, sbQueryUrl } from '../shared/sponsorblock.js';
+import { WELCOME_PATH, isFirstInstall } from '../shared/welcome.js';
 
 const BACKOFF_KEY = 'ryd:backoff';
 const CACHE_PREFIX = 'ryd:v:';
@@ -17,12 +18,16 @@ const SB_CACHE_PREFIX = 'sb:v:';
 const PRUNE_EVERY = 50;
 let writesSincePrune = 0;
 
-chrome.runtime.onInstalled.addListener(async () => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   try {
     const stored = await chrome.storage.sync.get(SETTINGS_KEY);
     await chrome.storage.sync.set({ [SETTINGS_KEY]: migrate(stored[SETTINGS_KEY]) });
   } catch (error) {
     console.warn('HeMiTube: nastavení se při instalaci nepodařilo zapsat', error);
+  }
+  // Jen při první instalaci: ukázat, že dislajky načítá třetí strana, a nabídnout vypnutí.
+  if (isFirstInstall(details)) {
+    chrome.tabs.create({ url: chrome.runtime.getURL(WELCOME_PATH) }).catch(() => {});
   }
 });
 
@@ -39,7 +44,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return false;
 });
 
-// Klávesové zkratky nemají výchozí klávesy: uživatel si je nastaví v brave://extensions/shortcuts.
+// Klávesové zkratky nemají výchozí klávesy: uživatel si je nastaví v chrome://extensions/shortcuts (edge://, brave://…).
 chrome.commands.onCommand.addListener((command, tab) => {
   if (!tab?.id) return;
   chrome.tabs.sendMessage(tab.id, { type: 'ytk:command', command }, { frameId: 0 }).catch(() => {});
