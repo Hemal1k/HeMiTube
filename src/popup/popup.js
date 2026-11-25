@@ -1,11 +1,10 @@
 /** Popup: dlaždice rychlého nastavení, kvalita, rychlost a kodeky, stav přehrávání na aktivní kartě. */
-import { localizePage, t } from '../shared/i18n.js';
+import { localizePage, qualityLabel, speedLabel, t } from '../shared/i18n.js';
 import { loadSettings, saveSettings, watchSettings } from '../shared/storage.js';
 import { FPS_OPTIONS, QUALITY_OPTIONS, SPEED_OPTIONS } from '../shared/settings.js';
 import { SB_ORIGIN } from '../shared/sponsorblock.js';
-import { AUDIO_CODECS, VIDEO_CODECS } from '../shared/codec-logic.js';
+import { AUDIO_CODECS, CODEC_NAMES, VIDEO_CODECS } from '../shared/codec-logic.js';
 
-const CODEC_NAMES = { av1: 'AV1', vp9: 'VP9', vp8: 'VP8', h264: 'H.264', opus: 'Opus', aac: 'AAC' };
 const $ = (id) => document.getElementById(id);
 
 let settings = null;
@@ -30,14 +29,6 @@ async function save() {
 }
 
 /* ---------- Kvalita, FPS a rychlost ---------- */
-
-function qualityLabel(value) {
-  if (value === 'max') return t('qualityMax');
-  if (value === 'screen') return t('qualityScreen');
-  return `${value}p`;
-}
-
-const speedLabel = (value) => `${Number(value).toLocaleString(document.documentElement.lang || undefined)}×`;
 
 function fillSpeed() {
   const select = $('playback-speed');

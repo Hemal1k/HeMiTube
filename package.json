@@ -1,6 +1,6 @@
 {
   "name": "hemitube",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "A Chromium extension for YouTube: full-window theater mode, dislike counts, automatic quality, codec selection, SponsorBlock and hidden Shorts.",
   "type": "module",

@@ -7,6 +7,7 @@
  * - Povolené jsou jen typy zpráv z pevného seznamu a všechna data se validují na místě použití.
  *
  * Token chrání před kolizí s jinými skripty, ne před cíleným útokem stránky (ta přehrávač ovládá stejně).
+ * Data z mostu se proto nikdy neposílají do service workeru; SW bere jen ID videa z adresy stránky.
  */
 export const EVT_TO_MAIN = 'ytk:i2m';
 export const EVT_TO_ISOLATED = 'ytk:m2i';

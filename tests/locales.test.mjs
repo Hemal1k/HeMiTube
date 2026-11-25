@@ -36,6 +36,13 @@ test('cs a en mají stejné klíče', () => {
   assert.deepEqual(Object.keys(cs).sort(), Object.keys(en).sort());
 });
 
+test('cs a en mají v každé zprávě stejné placeholdery $1–$9', () => {
+  const placeholders = (text) => [...new Set(text.match(/\$\d/g) ?? [])].sort();
+  for (const key of Object.keys(en)) {
+    assert.deepEqual(placeholders(cs[key].message), placeholders(en[key].message), `placeholdery: ${key}`);
+  }
+});
+
 test('každá zpráva má neprázdný text', () => {
   for (const [locale, messages] of [['cs', cs], ['en', en]]) {
     for (const [key, value] of Object.entries(messages)) {

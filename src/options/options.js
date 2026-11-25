@@ -1,5 +1,5 @@
 /** Stránka nastavení: všechny volby, pořadí kodeků (drag & drop + šipky), export/import, výchozí. */
-import { localizePage, t } from '../shared/i18n.js';
+import { localizePage, qualityLabel, speedLabel, t } from '../shared/i18n.js';
 import { loadSettings, saveSettings, watchSettings } from '../shared/storage.js';
 import {
   FPS_OPTIONS,
@@ -12,11 +12,10 @@ import {
   migrate,
   setPath,
 } from '../shared/settings.js';
-import { AUDIO_CODECS, VIDEO_CODECS, buildCodecConfig, codecConfigKey } from '../shared/codec-logic.js';
+import { AUDIO_CODECS, CODEC_NAMES, VIDEO_CODECS, buildCodecConfig, codecConfigKey } from '../shared/codec-logic.js';
 import { SB_ORIGIN } from '../shared/sponsorblock.js';
 import { isWelcomeSearch } from '../shared/welcome.js';
 
-const CODEC_NAMES = { av1: 'AV1', vp9: 'VP9', h264: 'H.264' };
 let settings = null;
 let toastTimer = null;
 let savedCodecKey = null; // konfigurace kodeků/FPS při posledním uložení
@@ -32,14 +31,6 @@ function toast(message, { info = false } = {}) {
 }
 
 const codecKeyOf = (value) => codecConfigKey(buildCodecConfig(value));
-
-function qualityLabel(value) {
-  if (value === 'max') return t('qualityMax');
-  if (value === 'screen') return t('qualityScreen');
-  return `${value}p`;
-}
-
-const speedLabel = (value) => `${Number(value).toLocaleString(document.documentElement.lang || undefined)}×`;
 
 const OPTION_SETS = {
   quality: () => QUALITY_OPTIONS.map((value) => [value, qualityLabel(value)]),
@@ -189,8 +180,6 @@ function bindAudio() {
     });
   }
 }
-
-/* ---------- Obecné vazby data-setting ---------- */
 
 /* ---------- SponsorBlock ---------- */
 
@@ -359,7 +348,8 @@ async function init() {
     if (await requestSbPermission()) renderSbPermission();
   });
   document.getElementById('open-shortcuts').addEventListener('click', () => {
-    chrome.tabs.create({ url: 'chrome://extensions/shortcuts' });
+    // Edge přesměruje chrome:// na edge://; kde prohlížeč stránku neotevře (např. Opera), aspoň poradit.
+    chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }).catch(() => toast(t('shortcutsHelp'), { info: true }));
   });
   renderShortcuts();
   // Po návratu ze stránky zkratek ukázat aktuální klávesy.

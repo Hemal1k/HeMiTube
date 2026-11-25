@@ -76,6 +76,10 @@ export const SELECTORS = Object.freeze({
     'ytd-mini-guide-entry-renderer:has(a[title="Shorts"])',
     'ytd-mini-guide-entry-renderer[aria-label="Shorts"]',
     'yt-tab-shape[tab-title="Shorts"]',
+    // [P] totéž podle odkazu (nezávisle na jazyce YouTube); text výše zůstává jako záloha
+    'ytd-guide-entry-renderer:has(a[href^="/shorts"])',
+    'ytd-mini-guide-entry-renderer:has(a[href^="/shorts"])',
+    'yt-tab-shape:has(a[href$="/shorts"])',
   ],
   // Filtry nad výsledky („Vše · Shorts · Videa…“) nemají atribut → hledají se podle textu.
   shortsChips: ['yt-chip-cloud-chip-renderer', 'chip-view-model', 'chip-shape'],

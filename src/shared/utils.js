@@ -118,3 +118,20 @@ export function toggleAttr(element, name, on, value = '') {
 export function isVisible(element) {
   return Boolean(element) && element.offsetWidth > 0 && element.offsetHeight > 0;
 }
+
+/** Video, které se právě přehrává (jinak první s obrazem), nebo null. Použití jen v prohlížeči. */
+export function findActiveVideo() {
+  const videos = [...document.querySelectorAll('video')].filter((video) => video.videoWidth > 0);
+  return videos.find((video) => !video.paused) ?? videos[0] ?? null;
+}
+
+/** Krátká zpráva v přehrávači (host); předchozí zpráva stejné třídy se nahradí. Použití jen v prohlížeči. */
+export function showPlayerToast(host, text, { className = 'ytk-player-toast', ms = 2500 } = {}) {
+  host.querySelector(`.${className}`)?.remove();
+  const toast = document.createElement('div');
+  toast.className = className;
+  toast.setAttribute('role', 'status');
+  toast.textContent = text;
+  host.appendChild(toast);
+  setTimeout(() => toast.remove(), ms);
+}

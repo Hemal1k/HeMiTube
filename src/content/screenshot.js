@@ -5,14 +5,7 @@
  */
 import { YT } from '../shared/selectors.js';
 import { t } from '../shared/i18n.js';
-
-const TOAST_CLASS = 'ytk-player-toast';
-const TOAST_MS = 2500;
-
-function findVideo() {
-  const videos = [...document.querySelectorAll('video')].filter((video) => video.videoWidth > 0);
-  return videos.find((video) => !video.paused) ?? videos[0] ?? null;
-}
+import { findActiveVideo, showPlayerToast } from '../shared/utils.js';
 
 /** Bezpečný název souboru: „Název videa – 1-23-45.png“ (bez znaků, které Windows/macOS nepovolí). */
 export function screenshotFileName(title, seconds) {
@@ -35,18 +28,11 @@ export function initScreenshot(ctx) {
   if (!ctx.isTop) return null;
 
   function showToast(video, text) {
-    const host = video.closest(`.${YT.playerClass}`) ?? document.body;
-    host.querySelector(`.${TOAST_CLASS}`)?.remove();
-    const toast = document.createElement('div');
-    toast.className = TOAST_CLASS;
-    toast.setAttribute('role', 'status');
-    toast.textContent = text;
-    host.appendChild(toast);
-    setTimeout(() => toast.remove(), TOAST_MS);
+    showPlayerToast(video.closest(`.${YT.playerClass}`) ?? document.body, text);
   }
 
   function capture() {
-    const video = findVideo();
+    const video = findActiveVideo();
     if (!video) return;
     try {
       const canvas = document.createElement('canvas');

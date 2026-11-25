@@ -6,7 +6,7 @@
  */
 import { YT } from '../shared/selectors.js';
 import { segmentToSkip } from '../shared/sponsorblock.js';
-import { getPageInfo } from '../shared/utils.js';
+import { getPageInfo, showPlayerToast } from '../shared/utils.js';
 import { t } from '../shared/i18n.js';
 
 const TOAST_CLASS = 'ytk-sb-toast';
@@ -46,13 +46,7 @@ export function initSponsorBlock(ctx) {
 
   function showToast(player, category) {
     if (!settings.sponsorBlock.notify || !player) return;
-    player.querySelector(`.${TOAST_CLASS}`)?.remove();
-    const toast = document.createElement('div');
-    toast.className = TOAST_CLASS;
-    toast.setAttribute('role', 'status');
-    toast.textContent = t('sbSkipped', [t(`sbCat_${category}`)]);
-    player.appendChild(toast);
-    setTimeout(() => toast.remove(), TOAST_MS);
+    showPlayerToast(player, t('sbSkipped', [t(`sbCat_${category}`)]), { className: TOAST_CLASS, ms: TOAST_MS });
   }
 
   // timeupdate neprobublává, zachytávací fáze ho chytí pro všechna <video>.

@@ -15,12 +15,7 @@ import { initLoop } from './loop.js';
 import { loadSettings, watchSettings } from '../shared/storage.js';
 import { createNavigationWatcher } from '../shared/navigation.js';
 import { codecsOf } from '../shared/codec-logic.js';
-import { getPageInfo } from '../shared/utils.js';
-
-function findActiveVideo() {
-  const videos = [...document.querySelectorAll('video')].filter((video) => video.videoWidth > 0);
-  return videos.find((video) => !video.paused) ?? videos[0] ?? null;
-}
+import { findActiveVideo, getPageInfo } from '../shared/utils.js';
 
 /** Odpověď pro popup. Odpovídá jen rámec, ve kterém je video, ostatní mlčí. */
 function registerStatusResponder(bridge) {

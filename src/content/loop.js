@@ -7,11 +7,8 @@
  * Při změně videa se smyčka zruší.
  */
 import { YT } from '../shared/selectors.js';
-import { getPageInfo } from '../shared/utils.js';
+import { getPageInfo, showPlayerToast } from '../shared/utils.js';
 import { t } from '../shared/i18n.js';
-
-const TOAST_CLASS = 'ytk-player-toast';
-const TOAST_MS = 2500;
 
 export function formatTime(seconds) {
   const total = Math.max(0, Math.floor(Number(seconds) || 0));
@@ -34,24 +31,12 @@ export function initLoop(ctx) {
   let range = null; // { a, b }
 
   function toast(text) {
-    const video = mainVideo();
-    const host = video?.closest(`.${YT.playerClass}`) ?? document.body;
-    host.querySelector(`.${TOAST_CLASS}`)?.remove();
-    const element = document.createElement('div');
-    element.className = TOAST_CLASS;
-    element.setAttribute('role', 'status');
-    element.textContent = text;
-    host.appendChild(element);
-    setTimeout(() => element.remove(), TOAST_MS);
-  }
-
-  function setWhole(on) {
-    whole = on;
+    showPlayerToast(mainVideo()?.closest(`.${YT.playerClass}`) ?? document.body, text);
   }
 
   function clear(silent = false) {
     const had = whole || range || pointA !== null;
-    if (whole) setWhole(false);
+    whole = false;
     range = null;
     pointA = null;
     if (had && !silent) toast(t('loopOff'));
@@ -63,7 +48,7 @@ export function initLoop(ctx) {
     if (command === 'loop-toggle') {
       range = null;
       pointA = null;
-      setWhole(!whole);
+      whole = !whole;
       toast(t(whole ? 'loopWhole' : 'loopOff'));
     } else if (command === 'loop-a') {
       pointA = video.currentTime;
@@ -79,7 +64,7 @@ export function initLoop(ctx) {
         toast(t('loopBBeforeA'));
         return;
       }
-      if (whole) setWhole(false);
+      whole = false;
       range = { a: pointA, b };
       toast(t('loopRange', [formatTime(range.a), formatTime(range.b)]));
       video.currentTime = range.a;

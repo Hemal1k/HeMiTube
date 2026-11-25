@@ -7,6 +7,16 @@ export function t(key, substitutions) {
   }
 }
 
+/** Popisek volby kvality: „Nejvyšší dostupná“, „Podle obrazovky“, „1080p“. */
+export function qualityLabel(value) {
+  if (value === 'max') return t('qualityMax');
+  if (value === 'screen') return t('qualityScreen');
+  return `${value}p`;
+}
+
+/** Popisek rychlosti podle jazyka stránky: „1,25×“ (cs), „1.25×“ (en). */
+export const speedLabel = (value) => `${Number(value).toLocaleString(document.documentElement.lang || undefined)}×`;
+
 /** Přeloží prvky s atributy data-i18n (text), data-i18n-title, data-i18n-aria-label. */
 export function localizePage(root = document) {
   for (const element of root.querySelectorAll('[data-i18n]')) element.textContent = t(element.dataset.i18n);

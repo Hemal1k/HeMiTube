@@ -11,7 +11,6 @@ import { CODEC_STORAGE_KEY, buildCodecConfig, codecConfigKey, isCodecConfigActiv
 const MIME_MAX = 300;
 const cleanMime = (value) => (typeof value === 'string' && value.length <= MIME_MAX ? value : null);
 
-
 export function createBridge() {
   const endpoint = createIsolatedEndpoint();
   const codecState = { video: null, audio: null };

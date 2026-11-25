@@ -54,6 +54,8 @@ No analytics, no telemetry, no remote code. HeMiTube asks only for `storage` and
 - **Dislike count:** to get a number, Return YouTube Dislike receives the ID of the video and your IP address. Turn the module off if you don't want that.
 - **Skip sponsors:** the browser asks for access to `sponsor.ajay.app` only when you turn it on. Only the first 4 characters of a SHA-256 hash of the video ID are sent, so the server does not learn exactly which video you watch.
 - The settings are saved in your browser's sync storage and can be exported and imported as JSON.
+- Like most extensions that change a page, HeMiTube leaves traces YouTube can see: `ytk-*` attributes on the page
+  and the codec settings in YouTube's `localStorage` (`ytk-codecs`). No personal data is in them.
 
 ## Known limits
 
@@ -61,7 +63,8 @@ No analytics, no telemetry, no remote code. HeMiTube asks only for `storage` and
 - YouTube picks the codec itself; an order can only be enforced by blocking the codecs before it.
 - The player API YouTube uses for quality is unofficial; when it does not take, the quality menu is used once per video (it can flicker briefly).
 - Mobile YouTube (`m.youtube.com`), YouTube Music and Studio are not supported.
-- The Shorts filter in search and the Shorts menu item are recognized by the name “Shorts” – in languages where YouTube calls them differently, they stay.
+- The Shorts filter in search is recognized by the name “Shorts” – in languages where YouTube calls it differently, it stays
+  (the Shorts menu item is also matched by its `/shorts` link, where YouTube gives it one).
 - Dislike counts are an estimate of Return YouTube Dislike, not official YouTube data.
 
 ## For developers

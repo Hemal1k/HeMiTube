@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "default_locale": "en",
   "minimum_chrome_version": "120",
   "permissions": [
@@ -40,12 +40,13 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*.youtube.com/*",
-        "https://*.youtube-nocookie.com/*"
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*",
+        "https://youtube.com/*",
+        "https://www.youtube-nocookie.com/*",
+        "https://youtube-nocookie.com/*"
       ],
       "exclude_matches": [
-        "https://music.youtube.com/*",
-        "https://studio.youtube.com/*",
         "https://www.youtube.com/live_chat*",
         "https://www.youtube.com/live_chat_replay*"
       ],
@@ -58,12 +59,13 @@
     },
     {
       "matches": [
-        "https://*.youtube.com/*",
-        "https://*.youtube-nocookie.com/*"
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*",
+        "https://youtube.com/*",
+        "https://www.youtube-nocookie.com/*",
+        "https://youtube-nocookie.com/*"
       ],
       "exclude_matches": [
-        "https://music.youtube.com/*",
-        "https://studio.youtube.com/*",
         "https://www.youtube.com/live_chat*",
         "https://www.youtube.com/live_chat_replay*"
       ],

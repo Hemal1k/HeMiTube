@@ -92,6 +92,7 @@
   "hintSponsorBlock": { "message": "Segments are marked by SponsorBlock users (sponsor.ajay.app, data CC BY-NC-SA 4.0)." },
   "shortcutsTitle": { "message": "Keyboard shortcuts" },
   "shortcutsOpen": { "message": "Set shortcuts" },
+  "shortcutsHelp": { "message": "Set them on your browser's extensions page → Keyboard shortcuts." },
   "shortcutNotSet": { "message": "Not set" },
   "cmdToggleTheater": { "message": "Turn theater mode on or off" },
   "cmdToggleMasthead": { "message": "Show or hide the top bar in theater mode" },

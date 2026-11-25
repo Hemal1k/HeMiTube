@@ -3,6 +3,8 @@
 export const VIDEO_CODECS = Object.freeze(['av1', 'vp9', 'h264']);
 export const AUDIO_CODECS = Object.freeze(['opus', 'aac']);
 export const CODEC_STORAGE_KEY = 'ytk-codecs';
+/** Zobrazované názvy kodeků (popup, nastavení). */
+export const CODEC_NAMES = Object.freeze({ av1: 'AV1', vp9: 'VP9', vp8: 'VP8', h264: 'H.264', opus: 'Opus', aac: 'AAC' });
 
 /** Prefix kódu kodeku v MIME (RFC 6381) → náš název. Pořadí je důležité (av01 před av…). */
 const PREFIXES = Object.freeze([
@@ -62,7 +64,6 @@ export function isDecodingConfigBlocked(config, cfg) {
   if (cfg.cap30 && video && typeof video.framerate === 'number' && video.framerate > 30) return true;
   return false;
 }
-
 
 /**
  * Z nastavení sestaví konfiguraci pro MAIN world (ukládá se do localStorage stránky).

@@ -50,6 +50,7 @@ chrome.commands.onCommand.addListener((command, tab) => {
   chrome.tabs.sendMessage(tab.id, { type: 'ytk:command', command }, { frameId: 0 }).catch(() => {});
 });
 
+const logPruneError = (error) => console.debug('HeMiTube: prune', error);
 
 async function sha256Prefix(text) {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -91,7 +92,7 @@ async function getSegments(videoId) {
   await chrome.storage.session.set({ [key]: { t: now, d: segments } });
   if (++writesSincePrune >= PRUNE_EVERY) {
     writesSincePrune = 0;
-    pruneCache(now).catch(() => {});
+    pruneCache(now).catch(logPruneError);
   }
   return { ok: true, segments };
 }
@@ -133,7 +134,7 @@ async function getVotes(videoId) {
   await chrome.storage.session.set({ [key]: { t: now, d: votes } });
   if (++writesSincePrune >= PRUNE_EVERY) {
     writesSincePrune = 0;
-    pruneCache(now).catch(() => {});
+    pruneCache(now).catch(logPruneError);
   }
   return { ok: true, ...votes };
 }
@@ -150,4 +151,4 @@ async function pruneCache(now) {
 }
 
 // Počítadlo zápisů je v paměti workeru a po uspání se vynuluje → čistit i při každém startu workeru.
-pruneCache(Date.now()).catch(() => {});
+pruneCache(Date.now()).catch(logPruneError);
